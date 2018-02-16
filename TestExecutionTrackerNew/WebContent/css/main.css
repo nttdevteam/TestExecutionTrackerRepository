@@ -1,0 +1,122 @@
+		p.dotted {border-style: dotted;}
+		p.dashed {border-style: dashed;}
+		div.solid {border-style: solid;}
+		div.solid {border-style: groove;}
+		p.double {border-style: double;}
+		p.groove {border-style: groove;}
+		p.ridge {border-style: ridge;}
+		p.inset {border-style: inset;}
+		p.outset {border-style: outset;}
+		p.none {border-style: none;}
+		p.hidden {border-style: hidden;}
+		p.mix {border-style: dotted dashed solid double;}
+
+
+td {
+  font-size:12px;
+}
+
+th {
+  font-size:10px;
+  font-weight: bold;
+}
+#excelSheet, #historyTable, #cycleList, #report {
+    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+#excelSheet td, #excelSheet th, #historyTable td, #historyTable th, #cycleList td, #cycleList th, #report td, #report th  {
+    border: 1px solid #ddd;
+    padding: 5px;
+}
+
+#excelSheet tr:nth-child(even){background-color: #f2f2f2;}
+#historyTable tr:nth-child(even){background-color: #f2f2f2;}
+#cycleList tr:nth-child(even){background-color: #f2f2f2;}
+#report tr:nth-child(even){background-color: #f2f2f2;}
+
+#excelSheet tr:hover {background-color: #ddd;}
+#historyTable tr:hover {background-color: #ddd;}
+#cycleList tr:hover {background-color: #ddd;}
+#report tr:hover {background-color: #ddd;}
+
+
+#excelSheet th, #historyTable th,  #cycleList th, #report th{
+    padding-top: 2px;
+    padding-bottom: 2px;
+    text-align: left;
+    background-color: #4CAF50;
+    color: white;
+}
+
+#newProjectDiv {
+}
+
+#navBar {
+	/* linear gradient */
+	background: #005d8e; /* Old browsers */
+	background: url('../../img/header_noise.png'), -moz-linear-gradient(top, #005d8e 1%, #004269 100%); /* FF3.6+ */
+	background: url('../../img/header_noise.png'), -webkit-gradient(linear, left top, left bottom, color-stop(1%,#005d8e), color-stop(100%,#004269)); /* Chrome,Safari4+ */
+	background: url('../../img/header_noise.png'), -webkit-linear-gradient(top, #005d8e 1%,#004269 100%); /* Chrome10+,Safari5.1+ */
+	background: url('../../img/header_noise.png'), -o-linear-gradient(top, #005d8e 1%,#004269 100%); /* Opera 11.10+ */
+	background: url('../../img/header_noise.png'), -ms-linear-gradient(top, #005d8e 1%,#004269 100%); /* IE10+ */
+	background: url('../../img/header_noise.png'), linear-gradient(to bottom, #005d8e 1%,#004269 100%); /* W3C */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#005d8e', endColorstr='#004269',GradientType=0 ); /* IE6-9 */
+	background-repeat: repeat-x repeat-y;
+	color: #ffffff;
+}
+
+/*6Nov*/
+.container>.navbar-header {margin-left: 10px\9 !important; margin-right: 10px\9 !important;}
+
+#navBar .navbar-collapse, #navBar .collapse {
+	padding: 0px;
+}
+
+#navBar .col-md-3 {
+	padding-right: 0;
+}
+
+#navBar .col-md-9 {
+	padding: 0;
+}
+
+#navBar a:link, #navBar a:visited, #navBar a:hover, #navBar a:active {
+	color: #ffffff;
+}
+
+#navBar ul {
+	float: right;
+    width: inherit;
+	padding-right: 30px\9;
+	padding-right: 30px;
+}
+
+#navBar li {
+	text-align: center;
+}
+
+#navBar li img {
+	margin-right: 1.0em;
+}
+
+#navBar li a:link {
+	color: #ffffff;
+}
+
+#navBar .btn-group {
+	height: 54px;
+}
+#navBar .btn-group a:link, #navBar .btn-group a:visited, #navBar .btn-group a:hover, #navBar .btn-group a:active {
+	width: 100%;
+	height: 100%;
+	padding-top: 16px;
+	display: block;
+	text-decoration: none;
+}
+
+#navBar .btn-group a:visited, #navBar .btn-group a:hover {
+	background: #093350;
+}
+

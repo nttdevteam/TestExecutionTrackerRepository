@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+	    <meta charset="utf-8">
+    	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" href="css/bootstrap.min.css" >
+	    <link rel="stylesheet" href="css/signin.css" >
+		<link rel="stylesheet" href="css/jquery-ui.css">
+
+		<script src="js/jquery-1.12.4.js"></script>
+		<script src="js/jquery-ui.min.js"></script>
+		<script src="js/julian.js"></script>
+		<style>
+			p.dotted {border-style: dotted;}
+			p.dashed {border-style: dashed;}
+			div.solid {border-style: solid;}
+			p.double {border-style: double;}
+			p.groove {border-style: groove;}
+			p.ridge {border-style: ridge;}
+			p.inset {border-style: inset;}
+			p.outset {border-style: outset;}
+			p.none {border-style: none;}
+			p.hidden {border-style: hidden;}
+			p.mix {border-style: dotted dashed solid double;}
+		</style>
+	</head>
+	<body>
+		<div class="container" align="center">
+	    	<h4 class="form-signin-heading"><u><b>EFT File Generator</b></b></u></h4>
+		</div>
+	    <div class="container solid" >
+	    	<br/>
+			<div align="center">
+		    	<h4 class="form-signin-heading"><u>Input</u></h4>
+			</div>
+
+			<form class="form-signin">
+		        <h5 class="form-signin-heading">Enter Volume and File Header:</h5>
+		        <input maxlength="6" type="text" id="r1SerialNumber" class="form-control" placeholder="Volume Serial Number" required autofocus value="236995">
+		        <input maxlength="6" type="text" id="r1AuthIdNumber" class="form-control" placeholder="Authorised ID Number" required value="236995">
+		        <input maxlength="6" type="text" id="datepicker" class="form-control" placeholder="Processing Date(YYMMDD)" required autofocus >
+		        <br/><h5 class="form-signin-heading">Data Record:</h5>
+		        <input maxlength="6" type="text" id="r4DestinationSortCode" class="form-control" placeholder="Destination Sort Code" required value="111111">
+				<input maxlength="14" type="text" id="r4DestinationAccountNumber" class="form-control" placeholder="Destination Account Number" required value="44444444">
+				<br/>
+				<input maxlength="6" type="text" id="r4OriginSortCode" class="form-control" placeholder="Originating Sort Code" required value="900017">
+				<input maxlength="14" type="text" id="r4OriginAccountNumber" class="form-control" placeholder="Originating Account Number" required value="13715873">
+				<br/>
+				<input maxlength="11" type="text" id="amount" class="form-control" placeholder="amount(Eg. 34.50)" required  value="1.00">
+				
+				Number of transactions:
+				<input maxlength="11" type="text" id="numberOfTransactions" class="form-control" placeholder="Number of transactions" required  value="">
+				
+				<br/>
+				<input maxlength="18" type="text" id="userName" class="form-control" placeholder="User Name" required value="A">
+				<input maxlength="18" type="text" id="userReference" class="form-control" placeholder="User reference number" required value="A">
+				<input maxlength="18" type="text" id="destinationAcName" class="form-control" placeholder="Destination A/c Name" required value="A">
+		
+				<br>
+		        <div id="submitBtn" class="btn btn-lg btn-primary btn-block" >Generate EFT File</div>
+			</form>
+		</div> 
+		<br/>
+		<button id="copyBtn" onclick="CopyHTMLToClipboard(document.getElementById('result').innerHTML)">Copy</button>
+		<br/>
+		
+		<div id="resultDiv" class="container solid"> 
+			<br/>
+			<div align="center">
+		    	<h4 class="form-signin-heading"><u>Output</u></h4>
+			</div>
+			<div id="result" > </div>
+		</div>
+		
+	</body>
+  	
+  	<script>
+  		$( document ).ready(function() {
+  			$("#result").hide();
+  			//$("#copyBtn").hide();
+  			$("#resultDiv").hide();
+
+			$("#submitBtn").click(function(e) {
+  				var r1SerialNumber= $("#r1SerialNumber").val();
+  				var r1AuthIdNumber= $("#r1AuthIdNumber").val();
+  				var datepicker= $("#datepicker").val();
+  				var r4DestinationSortCode= $("#r4DestinationSortCode").val();
+  				var r4DestinationAccountNumber= $("#r4DestinationAccountNumber").val();
+  				var r4OriginSortCode= $("#r4OriginSortCode").val();
+  				var r4OriginAccountNumber= $("#r4OriginAccountNumber").val();
+  				var userName= $("#userName").val();
+  				var userReference= $("#userReference").val();
+  				var destinationAcName= $("#destinationAcName").val();
+  				var amount = $("#amount").val();
+  				var numberOfTransactions = $("#numberOfTransactions").val();
+  				
+  				if(r1SerialNumber==null || r1SerialNumber=="" ) alert("Please Enter Serial Number");
+  				if(r1SerialNumber.length !=6) alert("Serial Number's length should be 6 characters.");
+  				
+  				if(r1AuthIdNumber==null || r1AuthIdNumber=="") alert("Please Enter Amount");
+  				if(r1AuthIdNumber.length !=6) alert("Auth Id's length should be 6 characters.");
+
+  				if(datepicker==null || datepicker=="") alert("Please Select Date");
+  				if(r4DestinationSortCode==null || r4DestinationSortCode=="") alert("Please Enter Destination Sort Code");
+  				if(r4DestinationSortCode.length !=6) alert("Invalid Destination Sort Code");
+
+  				if(r4DestinationAccountNumber==null || r4DestinationAccountNumber=="") alert("Please Enter Destination Account Number");
+  				if(r4DestinationAccountNumber.length !=8) alert("Invalid Destination Account Number");
+
+  				if(r4OriginSortCode==null || r4OriginSortCode=="") alert("Please Enter Origin Sort Code");
+  				if(r4OriginSortCode.length !=6) alert("Invalid Origin Sort Code");
+
+				if(r4OriginAccountNumber==null || r4OriginAccountNumber=="") alert("Please Enter Origin Account Number");
+  				if(r4OriginAccountNumber.length !=8) alert("Invalid Origin Account Number");
+
+  				if(userName==null || userName=="") alert("Please Enter User Name");
+  				if(userReference==null || userReference=="") alert("Please Enter User Reference");
+  				if(amount==null || amount=="") alert("Please Enter Amount");
+  				if(numberOfTransactions==null || numberOfTransactions=="") alert("Please Enter number of transactions.");
+
+  				
+  				amount = amount.replace(".","");
+  				var totalAmount = amount *  numberOfTransactions;
+  				
+  				var paddedAmount = pad(11, amount, "0");
+  				//var totalAmountPadded = pad(11, totalAmount, "0");
+  				//alert(totalAmount );
+  				
+  				var dd = datepicker.substring(0,2);
+  	  			var mm = datepicker.substring(3,5);
+  	  			var yy = datepicker.substring(8,10);
+  				var year = datepicker.substring(8,10);
+  				var julianNumber=getJulianDate(dd,mm, yy) +""; 
+  				var julianNumber = pad(3, julianNumber, "0");
+  				//alert(julianNumber);
+  				datepicker= yy+mm+dd;
+  				var transactionCode = "99";
+  				var contraTransactionCode = "17";
+  				
+  				userName = pad(18, userName, " ");
+  				userReference= pad(18, userReference, " ");
+  				destinationAcName= pad(18, destinationAcName, " ");
+
+  				userName = userName.replaceAll(" ", "&nbsp;");
+  				userReference = userReference.replaceAll(" ", "&nbsp;");
+  				destinationAcName = destinationAcName.replaceAll(" ", "&nbsp;");
+  				
+  				var row1 = "VOL1"+r1SerialNumber+"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"+r1AuthIdNumber+"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
+  				var row2 = "HDR1 A"+r1AuthIdNumber+"S"+"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;00000 00000 00000F&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"+datepicker+"0100&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;B&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
+  				var row3 = "UHL1 "+year+julianNumber+"000090&nbsp;&nbsp;&nbsp;&nbsp;010000001 DAILY&nbsp;&nbsp;031&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
+  				var row4 = r4DestinationSortCode+r4DestinationAccountNumber+"0"+transactionCode+r4OriginSortCode+r4OriginAccountNumber+"0000"+paddedAmount+userName+userReference+destinationAcName;
+  				
+  				var totalAmountPadded11 = pad(11, totalAmount, "0");
+  				var row5 = r4OriginSortCode+r4OriginAccountNumber+"0"+contraTransactionCode+r4OriginSortCode+r4OriginAccountNumber+"0000"+totalAmountPadded11+userReference+"CONTRA&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"+userName;
+
+  				var paddedAmount = pad(13, amount, "0");
+  				totalAmountPadded = pad(13, totalAmount, "0");
+  				var numberOfTransactions = pad(7, numberOfTransactions, "0");
+  				
+  				var row6 = "UTL1"+totalAmountPadded+totalAmountPadded+"0000001"+numberOfTransactions+"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
+  				
+  				transactionsData = getTransactionData(row4,numberOfTransactions);
+  				var fileContent = row1+"<br/>"+row2+"<br/>"+row3+"<br/>"+transactionsData+row5+"<br/>"+row6;
+  				
+  				$("#result").html(fileContent);
+  				$("#result").show();
+  	  			$("#resultDiv").show();
+  	  			
+  				e.stopPropagation();
+  			});
+			
+			$("#datepicker").datepicker(({dateFormat: "dd/mm/yy"}));
+			//$( "#datepicker" ).datepicker();
+  		});
+  		String.prototype.replaceAll = function (find, replace) {
+  		    var str = this;
+  		    return str.replace(new RegExp(find, 'g'), replace);
+  		};
+
+  	  	function copyToClipboard(text) {
+  	    	window.prompt("Copy to clipboard: Ctrl+C, Enter", text);
+  	  	}
+		function pad(width, string, padding) { 
+  	  		return (width <= string.length) ? string : pad(width, padding + string, padding)
+  		}
+		function getTransactionData(row4,numberOfTransactions)
+		{
+			var transactionsData = row4 + "<br/>";
+			if(numberOfTransactions == 1) {
+				return transactionsData;
+			}
+			
+			for(i = 1; i < numberOfTransactions ; i++){
+				transactionsData = transactionsData + row4 + "<br/>";
+			}
+			return transactionsData;
+		}
+
+		function CopyHTMLToClipboard(div) {    
+	        if (document.body.createControlRange) {
+	            var htmlContent = document.getElementById('result');
+	            var controlRange;
+
+	            var range = document.body.createTextRange();
+	            range.moveToElementText(htmlContent);
+
+	            //Uncomment the next line if you don't want the text in the div to be selected
+	            range.select();
+
+	            controlRange = document.body.createControlRange();
+	            controlRange.addElement(htmlContent);
+
+	            //This line will copy the formatted text to the clipboard
+	            controlRange.execCommand('Copy');         
+
+	            alert('Your HTML has been copied\n\r\n\rGo to Word and press Ctrl+V');
+	        }
+	    }    
+
+  	</script>
+</html>
