@@ -41,7 +41,7 @@ public class LoginController {
 	//@RequestBody LoginForm loginForm
 	@RequestMapping(value="login", method = RequestMethod.POST)
 	public String authenticate(@ModelAttribute LoginForm loginForm, ModelMap model, HttpServletRequest request) {
-		
+		System.out.println("Inside Login Controller");
 		if(!(authenticationDao.ifExists(loginForm.getUserName(), loginForm.getPassword()) ))
 		{
 			model.addAttribute("errorMessage", "Invalid Password");
